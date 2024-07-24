@@ -12,8 +12,9 @@ configure_file(version.h.in version.h)
 add_executable(helloworld_cli main.cpp)
 add_library(helloworld lib.cpp)
 add_executable(test_version test_version.cpp)
+add_executable(test_version_google test_google.cpp)
 
-set_target_properties(helloworld_cli helloworld test_version PROPERTIES
+set_target_properties(helloworld_cli helloworld test_version test_version_google PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
@@ -32,6 +33,8 @@ target_link_libraries(test_version
     ${Boost_LIBRARIES}
     helloworld
 )
+
+target_link_libraries(test_version_google gtest gmock pthread helloworld)
 
 if (MSVC)
     target_compile_options(helloworld_cli PRIVATE
