@@ -15,8 +15,7 @@ jobs:
           submodules: true
       - run: sudo apt-get update && sudo apt-get install libboost-test-dev -y
       - run: sudo apt-get install libgtest-dev libgmock-dev -y
-      - run: cd /usr/src/googletest/
-      - run: sudo mkdir build && cd build && sudo cmake .. && sudo make
+      - run: cd /usr/src/googletest/ && mkdir build && cd build && sudo cmake .. && sudo make
       - run: sudo cp /usr/src/googletest/build/lib/* /usr/lib
       - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build .
