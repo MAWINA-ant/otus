@@ -1,66 +1,38 @@
 cmake_minimum_required(VERSION 3.2)
 
-set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
-set(PROJECT_VESRION 0.0.${PATCH_VERSION})
+project(filter VERSION 1.1.1)
 
-project(helloworld VERSION ${PROJECT_VESRION})
+add_executable(filter_ip main.cpp)
+add_library(utils utils.cpp)
+add_executable(tests_google test_google.cpp)
 
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-
-configure_file(version.h.in version.h)
-
-add_executable(helloworld_cli main.cpp)
-add_library(helloworld lib.cpp)
-add_executable(test_version test_version.cpp)
-add_executable(test_version_google test_google.cpp)
-
-set_target_properties(helloworld_cli helloworld test_version test_version_google PROPERTIES
+set_target_properties(filter_ip utils tests_google  PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
-target_include_directories(helloworld
+target_include_directories(utils
     PRIVATE "${CMAKE_BINARY_DIR}"
 )
-set_target_properties(test_version PROPERTIES
-    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-    INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+
+target_link_libraries(filter_ip PRIVATE
+    utils
 )
 
-target_link_libraries(helloworld_cli PRIVATE
-    helloworld
+target_link_libraries(tests_google gtest gmock pthread utils)
+
+#target_compile_options(filter_ip PRIVATE
+#        -Wall -Wextra -pedantic -Werror
+#)
+    
+target_compile_options(utils PRIVATE
+        -Wall -Wextra -pedantic -Werror
 )
-target_link_libraries(test_version
-    ${Boost_LIBRARIES}
-    helloworld
+    
+target_compile_options(tests_google PRIVATE
+        -Wall -Wextra -pedantic -Werror
 )
 
-target_link_libraries(test_version_google gtest gmock pthread helloworld)
-
-if (MSVC)
-    target_compile_options(helloworld_cli PRIVATE
-        /W4
-    )
-    target_compile_options(helloworld PRIVATE
-        /W4
-    )
-    target_compile_options(test_version PRIVATE
-        /W4
-    )
-else ()
-    target_compile_options(helloworld_cli PRIVATE
-        -Wall -Wextra -pedantic -Werror
-    )
-    target_compile_options(helloworld PRIVATE
-        -Wall -Wextra -pedantic -Werror
-    )
-    target_compile_options(test_version PRIVATE
-        -Wall -Wextra -pedantic -Werror
-    )
-endif()
-
-
-
-install(TARGETS helloworld_cli RUNTIME DESTINATION bin)
+install(TARGETS filter_ip RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
@@ -74,4 +46,4 @@ include(CPack)
 
 enable_testing()
 
-add_test(test_version test_version)
+add_test(tests_google tests_google)
