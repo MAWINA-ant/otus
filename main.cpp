@@ -47,8 +47,6 @@ int main(int argc, char const *argv[])
             ip_set.insert(IP(Utils::split(v.at(0), '.')));
         }
 
-        std::cout << ip_set.size() << std::endl;
-
         // reverse lexicographically sort
         for (auto ip = ip_set.rbegin(); ip != ip_set.rend(); ++ip) {
             std::cout << (*ip).toString() << "\n";
