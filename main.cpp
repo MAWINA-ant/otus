@@ -5,34 +5,28 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <array>
 
 #include "utils.h"
 
 struct IP {
-    explicit IP(const std::vector<std::string>& str) : ip1{static_cast<uint8_t>(std::atoi(str[0].data()))},
-                                                       ip2{static_cast<uint8_t>(std::atoi(str[1].data()))},
-                                                       ip3{static_cast<uint8_t>(std::atoi(str[2].data()))},
-                                                       ip4{static_cast<uint8_t>(std::atoi(str[3].data()))} {
-
+    explicit IP(const std::vector<std::string>& str)  {
+        ip_parts[0] = std::atoi(str[0].data());
+        ip_parts[1] = std::atoi(str[1].data());
+        ip_parts[2] = std::atoi(str[2].data());
+        ip_parts[3] = std::atoi(str[3].data());
     }
-    uint8_t ip1;
-    uint8_t ip2;
-    uint8_t ip3;
-    uint8_t ip4;
+    std::array<uint8_t, 4> ip_parts;
 
     std::string toString() const;
 };
 
 std::string IP::toString() const {
-    return std::to_string(ip1) + "." + std::to_string(ip2) + "." + std::to_string(ip3) + "." + std::to_string(ip4);
+    return std::to_string(ip_parts[0]) + "." + std::to_string(ip_parts[1]) + "." + std::to_string(ip_parts[2]) + "." + std::to_string(ip_parts[3]);
 }
 
 bool operator<(const IP& lhs, const IP& rhs) {
-    if (lhs.ip1 < rhs.ip1) return true;
-    else if (lhs.ip1 == rhs.ip1 && lhs.ip2 < rhs.ip2) return true;
-    else if (lhs.ip1 == rhs.ip1 && lhs.ip2 == rhs.ip2 && lhs.ip3 < rhs.ip3) return true;
-    else if (lhs.ip1 == rhs.ip1 && lhs.ip2 == rhs.ip2 && lhs.ip3 == rhs.ip3 && lhs.ip4 < rhs.ip4) return true;
-    return false;
+    return lhs.ip_parts < rhs.ip_parts;
 }
 
 int main(int argc, char const *argv[])
@@ -53,7 +47,7 @@ int main(int argc, char const *argv[])
         }
 
         // filter by first byte and output
-        auto it = std::find_if(ip_set.begin(), ip_set.end(), [](const IP& ip){ return ip.ip1 != 1; });
+        auto it = std::find_if(ip_set.begin(), ip_set.end(), [](const IP& ip){ return ip.ip_parts[0] != 1; });
         std::multiset<IP> filter1;
         for (auto ip = ip_set.begin(); ip != it; ++ip) {
             filter1.insert(*ip);
@@ -64,8 +58,8 @@ int main(int argc, char const *argv[])
 
 
         // filter by first and second bytes and output
-        auto first = std::find_if(ip_set.begin(), ip_set.end(), [](const IP& ip){ return ip.ip1 == 46 && ip.ip2 == 70; });
-        auto last = std::find_if(ip_set.begin(), ip_set.end(), [](const IP& ip){ return ip.ip1 > 46 || (ip.ip1 == 46 && ip.ip2 > 70) ; });
+        auto first = std::find_if(ip_set.begin(), ip_set.end(), [](const IP& ip){ return ip.ip_parts[0] == 46 && ip.ip_parts[1] == 70; });
+        auto last = std::find_if(ip_set.begin(), ip_set.end(), [](const IP& ip){ return ip.ip_parts[0] > 46 || (ip.ip_parts[0] == 46 && ip.ip_parts[1] > 70) ; });
         std::multiset<IP> filter2;
         for (auto ip = first; ip != last; ++ip) {
             filter2.insert(*ip);
@@ -76,7 +70,7 @@ int main(int argc, char const *argv[])
 
         // filter by any byte and output
         std::for_each(ip_set.rbegin(), ip_set.rend(), [](const IP& ip){
-            if (ip.ip1 == 46 || ip.ip2 == 46 || ip.ip3 == 46 || ip.ip4 == 46) {
+            if (ip.ip_parts[0] == 46 || ip.ip_parts[1] == 46 || ip.ip_parts[2] == 46 || ip.ip_parts[3] == 46) {
                 std::cout << ip.toString() << "\n";
             }
         });
