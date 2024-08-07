@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - hometask2
+      - hometask3
       - feature/github_actions
 
 jobs:
@@ -20,7 +21,6 @@ jobs:
       - run: sudo cp /usr/src/googletest/build/lib/* /usr/lib
       - run: cmake . -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build .
-      - run: cmake --build . --target test
       - run: cmake --build . --target package
       - name: Create Release
         id: create_release
@@ -39,6 +39,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./filter-1.1.1-Linux.deb
-          asset_name: filter-1.1.1-Linux.deb
+          asset_path: ./allocator-1.1.1-Linux.deb
+          asset_name: allocator-1.1.1-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
