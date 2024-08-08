@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(allocator_container VERSION 1.1.1)
+project(sfinae VERSION 1.1.1)
 
-add_executable(allocator_container main.cpp)
+add_executable(sfinae main.cpp)
 
-set_target_properties(allocator_container  PROPERTIES
+set_target_properties(sfinae  PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
 
-install(TARGETS allocator_container RUNTIME DESTINATION bin)
+install(TARGETS sfinae RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
