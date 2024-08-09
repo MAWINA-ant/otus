@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(sfinae VERSION 1.1.1)
+project(print_ip VERSION 1.1.1)
 
-add_executable(sfinae main.cpp)
+add_executable(print_ip main.cpp)
 
-set_target_properties(sfinae  PROPERTIES
+set_target_properties(print_ip  PROPERTIES
     CXX_STANDARD 14
     CXX_STANDARD_REQUIRED ON
 )
 
-install(TARGETS sfinae RUNTIME DESTINATION bin)
+install(TARGETS print_ip RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
