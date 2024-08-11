@@ -52,6 +52,7 @@ printTuple(std::tuple<Ts...> tup) {
 
 /**
  * \brief Print ip from integral type
+ *
  * \tparam T - some type
  * \param [in] val Object for convert to ip
  * \return void if SFINAE is enable this version
@@ -78,6 +79,7 @@ print_ip(const T& val) {
 
 /**
  * \brief Print ip from string
+ *
  * \tparam T - some type
  * \param [in] val Object for convert to ip
  * \return void if SFINAE is enable this version
@@ -91,6 +93,7 @@ print_ip(const T& val) {
 
 /**
  * \brief Print ip from container vector or list
+ *
  * \tparam T - some type
  * \param [in] val Object for convert to ip
  * \return void if SFINAE is enable this version
