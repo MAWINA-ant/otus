@@ -51,13 +51,16 @@ printTuple(std::tuple<Ts...> tup) {
 }
 
 /**
- * \brief Print ip from integral type
- *
- * \tparam T - some type
- * \param [in] val Object for convert to ip
- * \return void if SFINAE is enable this version
- *
- */
+    \brief Шаблонная функция суммирования двух объектов
+
+    \tparam T - любой тип, для которого определен оператор суммирования
+    и оператор присваивания
+
+    \param [in] a Первый объект, который нужно сложить
+    \param [in] b Второй объект, который нужно сложить
+
+    \return Новый объект типа *T*, равный сумме *a* и *b*.
+*/
 template <typename T>
 typename std::enable_if_t<std::is_integral<T>::value>
 print_ip(const T& val) {
