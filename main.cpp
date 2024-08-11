@@ -7,6 +7,10 @@
 template<typename ...>
 using void_t=void;
 
+/**
+ * \brief Metafunction is_container
+ *      Needed to determine whether a type is a container
+ */
 template<typename T, typename U = void>
 struct is_container : std::false_type {};
 
@@ -16,13 +20,20 @@ struct is_container<std::string> : std::false_type {};
 template<typename T>
 struct is_container<T, void_t<typename T::iterator>> : std::true_type {};
 
-
+/**
+ * \brief Metafunction is_container
+ *      Needed to determine whether a type is a tuple
+ */
 template <typename T>
 struct is_tuple : std::false_type {};
 
 template <typename ...Ts>
 struct is_tuple<std::tuple<Ts...>> : std::true_type{};
 
+/**
+ * \brief Metafunction printTuple
+ *      Needed for print tuple
+ */
 template <size_t I = 0, typename... Ts>
 typename std::enable_if_t<I == sizeof...(Ts)>
 printTuple(std::tuple<Ts...> tup) {
@@ -39,12 +50,19 @@ printTuple(std::tuple<Ts...> tup) {
     return printTuple<I+1>(tup);
 }
 
+/**
+ * \brief Print ip from integral type
+ * \tparam T - some type
+ * \param [in] val Object for convert to ip
+ * \return void if SFINAE is enable this version
+ *
+ */
 template <typename T>
 typename std::enable_if_t<std::is_integral<T>::value>
 print_ip(const T& val) {
-    T tmp = val;
+    auto tmp = val;
     size_t size = sizeof(T);
-    std::vector<T> v;
+    std::vector<int> v;
     v.reserve(sizeof(T));
     for (size_t i = 0; i < size; ++i) {
         v.push_back(tmp & 0xFF);
@@ -58,12 +76,26 @@ print_ip(const T& val) {
     std::cout << "\n";
 }
 
+/**
+ * \brief Print ip from string
+ * \tparam T - some type
+ * \param [in] val Object for convert to ip
+ * \return void if SFINAE is enable this version
+ *
+ */
 template <typename T>
 typename std::enable_if_t<std::is_same<T, std::string>::value>
 print_ip(const T& val) {
     std::cout << val << "\n";
 }
 
+/**
+ * \brief Print ip from container vector or list
+ * \tparam T - some type
+ * \param [in] val Object for convert to ip
+ * \return void if SFINAE is enable this version
+ *
+ */
 template <typename T>
 typename std::enable_if_t<is_container<T>::value>
 print_ip(const T& val) {
@@ -75,6 +107,12 @@ print_ip(const T& val) {
     std::cout << "\n";
 }
 
+/**
+ * \brief Print ip from tuple
+ * \tparam T - some type
+ * \param [in] val Object for convert to ip
+ * \return void if SFINAE is enable this version*
+ */
 template <typename T>
 typename std::enable_if_t<is_tuple<T>::value>
 print_ip(const T& val) {
