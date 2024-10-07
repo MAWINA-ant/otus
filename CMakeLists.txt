@@ -1,15 +1,19 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(print_ip VERSION 1.1.1)
+project(mvc_prototype VERSION 1.1.1)
 
-add_executable(print_ip main.cpp)
+add_executable(mvc_prototype main.cpp
+                             model.cpp
+                             view.cpp
+                             controller.cpp                       
+                         )
 
-set_target_properties(print_ip  PROPERTIES
-    CXX_STANDARD 14
+set_target_properties(mvc_prototype  PROPERTIES
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
-install(TARGETS print_ip RUNTIME DESTINATION bin)
+install(TARGETS mvc_prototype RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
