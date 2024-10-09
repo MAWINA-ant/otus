@@ -5,14 +5,6 @@
 #include "view.h"
 #include "controller.h"
 
-Model* importModelFromFile(const char* fileName) {
-
-}
-
-void exportModelToFile(const char* fileName, Controller con) {
-
-}
-
 Shape* createShape(ShapeType sType) {
     switch (sType) {
     case ShapeType::Line: {
@@ -28,12 +20,21 @@ Shape* createShape(ShapeType sType) {
     return nullptr;
 }
 
+Model* createNewDoc(std::vector<Shape*> v) {
+    return new Model(v);
+}
+
 bool removeShape(Shape* shape) {
     return true;
 }
 
-Model* createNewDoc() {
+void importModelFromFile(const char* fileName, Controller con) {
+    std::vector<Shape*> v;
+    con.setModel(createNewDoc(v));
+}
 
+void exportModelToFile(const char* fileName, Controller con) {
+    auto v = con;
 }
 
 int main() {   

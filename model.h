@@ -50,7 +50,7 @@ public:
 
     void appendShape();
     void removeShape(Shape* sh);
-    std::vector<Shape*>& getData() const { return data; }
+    std::vector<Shape*> getData() { return data; }
 
 private:
     std::vector<Shape*> data;
