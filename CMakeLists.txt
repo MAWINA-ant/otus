@@ -5,7 +5,11 @@ project(mvc_prototype VERSION 1.1.1)
 add_executable(mvc_prototype main.cpp
                              model.cpp
                              view.cpp
-                             controller.cpp                       
+                             controller.cpp
+                             observ.h
+                             model.h
+                             view.h
+                             controller.h
                          )
 
 set_target_properties(mvc_prototype  PROPERTIES

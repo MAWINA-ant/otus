@@ -2,9 +2,13 @@
 #include "observ.h"
 #include "model.h"
 
-View::View(Model *m) {
-    model = std::make_shared<Model>(*m);
+View::View(Model *m) : model{m} {
     model->addObserver(this);
+}
+
+void View::setModel(Model *m) {
+    model = m;
+    update();
 }
 
 void View::update()

@@ -11,11 +11,11 @@ class View : public Observer
 {
 public:
     View(Model *m);
-    inline void setModel(Model *m) { model = std::make_shared<Model>(*m); }
-    virtual void update();
+    void setModel(Model *m);
+    virtual void update() override;
 
 private:
-    std::shared_ptr<Model> model;
+    Model *model;
 };
 
 #endif // VIEW_H
