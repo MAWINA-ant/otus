@@ -1,23 +1,18 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(mvc_prototype VERSION 1.1.1)
+project(matrix VERSION 1.1.1)
 
-add_executable(mvc_prototype main.cpp
-                             model.cpp
-                             view.cpp
-                             controller.cpp
-                             observ.h
-                             model.h
-                             view.h
-                             controller.h
-                         )
+add_executable(matrix   main.cpp
+                        sparsematrix.h
+                        sparsematrix.cpp
+                        )
 
-set_target_properties(mvc_prototype  PROPERTIES
+set_target_properties(matrix PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
-install(TARGETS mvc_prototype RUNTIME DESTINATION bin)
+install(TARGETS matrix RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
