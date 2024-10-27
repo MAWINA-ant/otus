@@ -1,58 +1,66 @@
 #include <iostream>
 #include <memory>
+#include <assert.h>
 
-#include "model.h"
-#include "view.h"
-#include "controller.h"
-
-Shape* createShape(ShapeType sType) {
-    switch (sType) {
-    case ShapeType::Line: {
-        return new Line();
-    }
-    case ShapeType::Triangle: {
-        return new Triangle();
-    }
-    case ShapeType::Circle: {
-        return new Circle();
-    }
-    }
-    return nullptr;
-}
-
-Model* createNewDoc(std::vector<Shape*> v = {}) {
-    return new Model(v);
-}
-
-bool removeShape(Shape* shape) {
-    return true;
-}
-
-Model* importModelFromFile(const char* fileName, Controller con) {
-    auto v = con.importVectorFromFile(fileName);
-    Model *m = createNewDoc(v);
-    con.setModel(m);
-    return m;
-}
-
-void exportModelToFile(const char* fileName, Controller con) {
-    con.exportVectorToFile(fileName);
-}
+#include "sparsematrix.h"
 
 int main() {
+    /*SparseMatrix<int, -1> matrix;
+    assert(matrix.size() == 0); // все ячейки свободны
+    auto a = matrix[0][0];
+    assert(a == -1);
+    assert(matrix.size() == 0);
+    matrix[100][100] = 314;
+    assert(matrix[100][100] == 314);
+    assert(matrix.size() == 1);
+    std::cout << matrix[100][100] << "\n";
+    ((matrix[200][200] = 314) = 0) = 217;
+    // выведется одна строка
+    // 100100314
+    for(auto c: matrix)
+    {
+        int x;
+        int y;
+        int v;
+        std::tie(x, y, v) = c.second;
+        std::cout << x << y << v << std::endl;
+    }*/
 
-    auto model = createNewDoc();
-    auto view = View(std::move(model));
-    auto controller = Controller(model);
-    auto line = createShape(ShapeType::Line);
-    auto triangle = createShape(ShapeType::Triangle);
-    auto circle = createShape(ShapeType::Circle);
-    model->appendShape(line);
-    model->appendShape(triangle);
-    model->appendShape(circle);
-    model->removeShape(triangle);
-    exportModelToFile("some/file/data", controller);
-    auto model2 = importModelFromFile("some/file/data", controller);
-    view.setModel(model2);
+    SparseMatrix<int, 0> matrix;
+    for (auto i = 0; i < 10; ++i) {
+        for (auto j = 0; j < 10; ++j) {
+            if (i == j) {
+                matrix[i][j] = i;
+            }
+        }
+    }
+    for (auto i = 0; i < 10; ++i) {
+        for (auto j = 9; j >= 0; --j) {
+            if (i + j == 9) {
+                matrix[i][j] = j;
+            }
+        }
+    }
+    for (auto i = 1; i < 9; ++i) {
+        for (auto j = 1; j < 9; ++j) {
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << "\n";
+    }
+
+    std::cout << "size of matrix = " <<  matrix.size() << "\n";
+    for(auto c: matrix)
+    {
+        int x;
+        int y;
+        int v;
+        std::tie(x, y, v) = c.second;
+        std::cout << x << y << v << std::endl;
+    }
+
+    matrix[100][100] = 21;
+    std::cout << matrix[100][100] << "\n";
+    ((matrix[100][100] = 314) = 0) = 217;
+    std::cout << matrix[100][100] << "\n";
     return 0;
 }

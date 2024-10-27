@@ -6,6 +6,7 @@ on:
       - main
       - hometask2
       - hometask3
+      - hometask6
       - feature/github_actions
 
 jobs:

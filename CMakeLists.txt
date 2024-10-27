@@ -4,7 +4,6 @@ project(matrix VERSION 1.1.1)
 
 add_executable(matrix   main.cpp
                         sparsematrix.h
-                        sparsematrix.cpp
                         )
 
 set_target_properties(matrix PROPERTIES
