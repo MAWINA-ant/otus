@@ -1,17 +1,18 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(matrix VERSION 1.1.1)
+project(command_parser VERSION 1.1.1)
 
-add_executable(matrix   main.cpp
-                        sparsematrix.h
-                        )
+add_executable(command_parser main.cpp
+                                command.h
+                                command.cpp)
 
-set_target_properties(matrix PROPERTIES
+set_target_properties(command_parser PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
+    OUTPUT_NAME "bulk"
 )
 
-install(TARGETS matrix RUNTIME DESTINATION bin)
+install(TARGETS command_parser RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR DEB)
 
