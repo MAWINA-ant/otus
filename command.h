@@ -18,7 +18,9 @@ public:
     }
 
 private:
+    /// @brief Текст команды
     std::string commandName;
+    /// @brief Уровень вложенности команды
     u_int8_t nestedLevel{0};
 };
 

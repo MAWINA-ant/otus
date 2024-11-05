@@ -1,19 +1,38 @@
 #include <iostream>
 #include <queue>
+#include <chrono>
+#include <fstream>
 
 #include "command.h"
 
 int countCommands = 0;
 
-void printCommands(std::queue<Command>& commands) {
-    if (commands.empty()) return;
+/// @brief Печатает команды в очереди и пишет лог файл
+/// @param commands Очередь команд
+/// @param fileName Имя лог файла
+void printCommands(std::queue<Command>& commands, std::string& fileName) {
+    if (commands.empty() || fileName.empty()) return;
+    std::ofstream out;
+    out.open(fileName);
     std::cout << "bulk: ";
+    out << "bulk: ";
     while (!commands.empty()) {
-        std::cout <<  commands.front();
-        if (commands.size() != 1) std::cout << ", ";
+        std::cout << commands.front();
+        out << commands.front();
+        if (commands.size() != 1) {
+            std::cout << ", ";
+            out << ", ";
+        }
         commands.pop();
     }
     std::cout << "\n";
+}
+
+/// @brief Вычисляет текущее время Unix
+/// @return Вовращает строку времени Unix
+std::string currentUnixTimeString() {
+    std::time_t result = std::time(nullptr);
+    return std::to_string(result);
 }
 
 int main(int argc, char* argv[]) {
@@ -26,6 +45,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Second argument should be a number\n";
         return 1;
     }
+    std::string fileName = "";
     std::queue<Command> queueCommands;
     u_int8_t nestedLevel = 0;
     std::string line;
@@ -34,23 +54,26 @@ int main(int argc, char* argv[]) {
         if (line == "{") {
             ++nestedLevel;
             if (queueCommands.front().getLevel() == 0) {
-                printCommands(queueCommands);    
+                printCommands(queueCommands, fileName);    
             }
             continue;
         } else if (line == "}") {
             --nestedLevel;
             if (queueCommands.front().getLevel() == 0 || nestedLevel == 0) {
-                printCommands(queueCommands);
+                printCommands(queueCommands, fileName);
             }
         } else {
+            if (queueCommands.empty()) {
+                fileName = "bulk" + currentUnixTimeString();
+            }
             queueCommands.push(Command{line, nestedLevel});
         }
         if (queueCommands.size() == countCommands && queueCommands.front().getLevel() == 0) {
-            printCommands(queueCommands);
+            printCommands(queueCommands, fileName);
         }
     }
     if (queueCommands.front().getLevel() == 0) {
-        printCommands(queueCommands);
+        printCommands(queueCommands, fileName);
     }
     return 0;
 }
