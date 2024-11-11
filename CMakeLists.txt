@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.5)
 
 project(command_parser VERSION 1.1.1)
 
-add_executable(command_parser main.cpp
+add_executable(command_parser   main.cpp
                                 command.h
-                                command.cpp)
+                                observ.h
+                                logger.h
+                                logger.cpp)
 
 set_target_properties(command_parser PROPERTIES
     CXX_STANDARD 17

@@ -2,3 +2,4 @@ tasks.json
 settings.json
 main
 build/
+.vscode/
